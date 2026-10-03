@@ -1,7 +1,7 @@
 const { contextBridge } = require("electron");
 
 contextBridge.exposeInMainWorld("nova", {
-  version: "0.3.0",
+  version: "0.5.0",
   async askAI({ endpoint, apiKey, model, messages }) {
     if (!endpoint) throw new Error("Add an AI endpoint in Nova AI Settings.");
     const headers = { "Content-Type": "application/json" };

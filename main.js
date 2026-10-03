@@ -1,11 +1,11 @@
-const { app, BrowserWindow, session, ipcMain } = require("electron");
+const { app, BrowserWindow, session } = require("electron");
 const path = require("path");
 
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440, height: 900, minWidth: 1050, minHeight: 650,
     backgroundColor: "#080a0f",
-    title: "Nova Browser",
+    title: "Project Lantern",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -19,7 +19,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   session.defaultSession.setPermissionRequestHandler((_, permission, callback) => {
-    callback(["fullscreen", "clipboard-read", "clipboard-write"].includes(permission));
+    callback(permission === "fullscreen");
   });
   createWindow();
   app.on("activate", () => {
