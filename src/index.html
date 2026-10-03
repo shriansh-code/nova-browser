@@ -1,95 +1,84 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: data:; frame-src https: data:;">
-<title>Nova Browser</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: data:; frame-src https: data:;">
+  <title>Project Lantern</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
-  <header class="chrome">
-    <div class="topline">
-      <div class="brand"><div class="logo"><i></i><i></i><i></i></div><b>Nova</b></div>
-      <div class="tabs" id="tabs"></div>
-      <button class="plus" id="newTab">+</button>
-    </div>
-    <div class="toolbar">
-      <button class="nav" id="back">‹</button>
-      <button class="nav" id="forward">›</button>
-      <button class="nav" id="reload">↻</button>
-      <button class="nav home" id="home">⌂</button>
-      <form class="omnibox" id="addressForm">
-        <span>⌕</span><input id="address" placeholder="Search or enter a URL" autocomplete="off">
-      </form>
-      <button class="nav" id="aiToggle" title="Nova AI">✦</button>
-      <button class="nav" id="menu">⋮</button>
-    </div>
-  </header>
-
-  <main class="stage">
-    <div class="progress" id="progress"></div>
-    <section class="welcome" id="welcome">
-      <div class="glow"></div>
-      <div class="hero">
-        <div class="nova-icon">N</div>
-        <h1>Meet Nova AI.</h1>
-        <p>Your AI assistant, built into your browser.</p>
-        <form class="hero-search" id="heroForm">
-          <span>⌕</span><input id="heroInput" placeholder="Search the web or ask Nova AI…">
-          <button>→</button>
+  <div class="app">
+    <header class="chrome">
+      <div class="topline">
+        <button class="brand" id="brandHome" aria-label="Lantern home">
+          <span class="brand-mark">L</span><b>Lantern</b><span class="beta">BETA</span>
+        </button>
+        <div class="tabs" id="tabs"></div>
+        <button class="icon-button new-tab" id="newTab" title="New tab">+</button>
+        <div class="window-spacer"></div>
+      </div>
+      <div class="toolbar">
+        <button class="icon-button" id="back" title="Back">‹</button>
+        <button class="icon-button" id="forward" title="Forward">›</button>
+        <button class="icon-button" id="reload" title="Reload">↻</button>
+        <button class="icon-button home-button" id="home" title="Lantern home">⌂</button>
+        <form class="omnibox" id="addressForm">
+          <span class="omnibox-icon">⌕</span>
+          <input id="address" placeholder="Ask Lantern or enter a web address" autocomplete="off">
+          <span class="safety-pill" id="safetyPill">Lantern home</span>
         </form>
-        <div class="chips">
-          <button data-prompt="Explain what I can do with this browser.">What can Nova do?</button>
-          <button data-prompt="Give me a simple explanation of artificial intelligence.">Explain AI</button>
-          <button data-prompt="Help me plan a coding project.">Plan a project</button>
+        <button class="icon-button lantern-button" id="aiToggle" title="Ask Lantern">✦</button>
+        <button class="profile-button" id="profileMenu" title="Profile">A</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div class="progress" id="progress"></div>
+      <section class="lantern-surface" id="lanternSurface">
+        <nav class="app-nav" id="appNav" aria-label="Lantern sections"></nav>
+        <div class="screen" id="screen"></div>
+      </section>
+      <div id="webArea"></div>
+
+      <aside class="tutor-panel" id="aiPanel">
+        <div class="tutor-head">
+          <div class="tutor-title"><span class="mini-mark">✦</span><div><strong>Ask Lantern</strong><small id="aiState">Learning guide</small></div></div>
+          <div><button class="panel-icon" id="settingsBtn" title="AI settings">⚙</button><button class="panel-icon" id="closeAI">×</button></div>
+        </div>
+        <div class="messages" id="messages">
+          <div class="bubble lantern"><b>Lantern</b><p>I’ll help you think it through—not just hand over an answer. What are you curious about?</p></div>
+        </div>
+        <div class="tutor-actions">
+          <button data-ai="Explain this more simply">Explain simpler</button>
+          <button data-ai="Give me an example">Give an example</button>
+          <button data-ai="Quiz me on this">Quiz me</button>
+          <button data-ai="Help me see this visually">Show visually</button>
+        </div>
+        <form class="composer" id="aiForm">
+          <textarea id="aiInput" rows="1" placeholder="Ask a why, how, or what-if question..."></textarea>
+          <button class="send-button" id="sendAI" title="Send">↑</button>
+        </form>
+      </aside>
+
+      <div class="modal-layer" id="modalLayer" role="dialog" aria-modal="true"></div>
+      <div class="settings" id="settings">
+        <div class="settings-card">
+          <button class="settings-close" id="settingsClose">×</button>
+          <span class="eyebrow">OPTIONAL CONNECTION</span>
+          <h2>Lantern AI settings</h2>
+          <p>The prototype teaches locally. You can also connect any OpenAI-compatible endpoint. Keys stay on this device.</p>
+          <label>Endpoint<input id="endpoint" placeholder="http://localhost:11434/v1/chat/completions"></label>
+          <label>Model<input id="model" placeholder="your-model"></label>
+          <label>API key <span>(optional)</span><input id="apiKey" type="password" placeholder="Leave empty for local servers"></label>
+          <button class="primary-button" id="saveSettings">Save settings</button>
         </div>
       </div>
-    </section>
-    <div id="webArea"></div>
-
-    <aside class="ai" id="aiPanel">
-      <div class="ai-head">
-        <div><strong>✦ Nova AI</strong><small id="aiState">Ready</small></div>
-        <div class="head-actions"><button id="settingsBtn">⚙</button><button id="closeAI">×</button></div>
-      </div>
-      <div class="messages" id="messages">
-        <div class="bubble nova">
-          <b>Nova</b>
-          <p>Hi! I can chat with you and, when a page is open, you can give me its content to analyze.</p>
-        </div>
-      </div>
-      <div class="quick">
-        <button data-ai="Summarize the current page.">Summarize page</button>
-        <button data-ai="Explain the current page simply.">Explain</button>
-      </div>
-      <form class="composer" id="aiForm">
-        <textarea id="aiInput" rows="1" placeholder="Ask Nova anything…"></textarea>
-        <button type="button" id="micAI" title="Voice input">🎙</button><button id="sendAI">↑</button>
-      </form>
-    </aside>
-
-    <div class="settings" id="settings">
-      <div class="settings-card">
-        <button class="settings-close" id="settingsClose">×</button>
-        <h2>Nova AI Settings</h2>
-        <p>Nova supports any AI server that accepts an OpenAI-compatible chat request.</p>
-        <label>Endpoint
-          <input id="endpoint" placeholder="http://localhost:11434/v1/chat/completions">
-        </label>
-        <label>Model
-          <input id="model" placeholder="your-model">
-        </label>
-        <label>API key <span>(optional)</span>
-          <input id="apiKey" type="password" placeholder="Leave empty for local servers">
-        </label>
-        <label class="voice-toggle"><input id="speakReplies" type="checkbox"> Speak Nova replies aloud</label><button class="save" id="saveSettings">Save settings</button>
-        <p class="hint">For a local model, use a local OpenAI-compatible server. Never publish an API key inside your source code.</p>
-      </div>
-    </div>
-  </main>
-</div>
-<script src="renderer.js"></script>
+      <div class="toast" id="toast"></div>
+    </main>
+  </div>
+  <script src="lantern-data.js"></script>
+  <script src="lantern-services.js"></script>
+  <script src="renderer.js"></script>
 </body>
 </html>

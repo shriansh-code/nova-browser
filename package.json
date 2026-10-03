@@ -1,7 +1,7 @@
 {
   "name": "nova-browser",
-  "version": "0.4.0",
-  "description": "Nova Browser with an in-browser AI assistant.",
+  "version": "0.5.0",
+  "description": "Project Lantern — a curiosity-powered learning browser for children and families.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
