@@ -1,0 +1,12 @@
+{
+  "name": "nova-browser",
+  "version": "0.4.0",
+  "description": "Nova Browser with an in-browser AI assistant.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^38.0.0"
+  }
+}
